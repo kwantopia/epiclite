@@ -1,0 +1,2 @@
+# For loading .env from local python manage.py shell
+https://gist.github.com/bennylope/2999704

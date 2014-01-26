@@ -1,0 +1,9 @@
+https://www.djangoproject.com/download/1.7a1/tarball/#egg=Django==1.7a1
+dj-database-url==0.2.2
+-e git+git@github.com:kwantopia/dj-static.git#egg=dj-static
+django-toolbelt==0.0.1
+gunicorn==18.0
+psycopg2==2.5.2
+pystache==0.5.3
+static==1.0.2
+wsgiref==0.1.2
