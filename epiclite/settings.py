@@ -35,6 +35,7 @@ TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = ['*']
 
+AUTH_USER_MODEL = 'epics.EpicUser'
 
 # Application definition
 
