@@ -1,7 +1,5 @@
 from django.contrib.gis.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.conf import settings
-from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -11,7 +9,7 @@ class Epic(models.Model):
 
   # organizer info
   organizer_id = models.CharField(max_length=128)
-  user = models.ForeignKey(User, null=True)
+  user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
 
   # epic info
   title = models.CharField(max_length=64) 
@@ -53,7 +51,7 @@ class EpicSubscription(models.Model):
   # device id of participant
   participant_id = models.CharField(max_length=128, db_index=True)
   # user entry might never have been created yet until registration
-  user = models.ForeignKey(User, null=True)
+  user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
   created = models.DateTimeField(auto_now_add=True)
 
 

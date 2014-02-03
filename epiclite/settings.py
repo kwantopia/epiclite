@@ -47,10 +47,11 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.gis',
     'rest_framework',
+    'core',
     'epics',
 )
 
-#AUTH_USER_MODEL = 'epics.EpicUser'
+AUTH_USER_MODEL = 'core.EpicUser'
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
