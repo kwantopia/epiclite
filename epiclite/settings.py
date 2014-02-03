@@ -35,7 +35,6 @@ TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = ['*']
 
-AUTH_USER_MODEL = 'epics.EpicUser'
 
 # Application definition
 
@@ -46,9 +45,12 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.gis',
     'rest_framework',
     'epics',
 )
+
+#AUTH_USER_MODEL = 'epics.EpicUser'
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',

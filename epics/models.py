@@ -1,17 +1,9 @@
-from django.db import models
-from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.gis.db import models
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.conf import settings
+from django.contrib.auth.models import User
 
 # Create your models here.
-
-class EpicUser(AbstractBaseUser):
-  email = models.EmailField(max_length=255, unique=True)
-  is_active = models.BooleanField(default=True)
-  is_admin = models.BooleanField(default=False)
-
-  objects = EpicUserManager()
-
-  USERNAME_FIELD = 'email'
-
 
 class Epic(models.Model):
   # unique ID that is used to identify each epic
@@ -19,14 +11,13 @@ class Epic(models.Model):
 
   # organizer info
   organizer_id = models.CharField(max_length=128)
-  user = models.ForeignKey(EpicUser, null=True)
+  user = models.ForeignKey(User, null=True)
 
   # epic info
   title = models.CharField(max_length=64) 
   # epic number used to start or create an epic
   epic_num = models.CharField(max_length=6)
-  lon = models.FloatField()
-  lat = models.FloatField() 
+  location = models.PointField()
   description = models.TextField()
   target_day = models.DateField()
   target_time = models.DateTimeField()
@@ -45,19 +36,24 @@ class Epic(models.Model):
   repeated = models.IntegerField(choices=REPEAT_CHOICES, default=REPEAT_CHOICES[0][0])
   created = models.DateTimeField(auto_now_add=True)
 
+  objects = models.GeoManager()
+
 
 class Device(models.Model):
   # device unique ID, for logging when device connects 
   device_id = models.CharField(max_length=128, db_index=True)
-  lon = models.FloatField()
-  lat = models.FloatField()
+  location = models.PointField()
   connected = models.DateTimeField(auto_now_add=True)
+
+  objects = models.GeoManager()
+
 
 class EpicSubscription(models.Model):
   epic = models.ForeignKey(Epic)
   # device id of participant
   participant_id = models.CharField(max_length=128, db_index=True)
   # user entry might never have been created yet until registration
-  user = models.ForeignKey('EpicUser', null=True)
+  user = models.ForeignKey(User, null=True)
   created = models.DateTimeField(auto_now_add=True)
+
 

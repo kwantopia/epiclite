@@ -1,2 +1,35 @@
 # For loading .env from local python manage.py shell
 https://gist.github.com/bennylope/2999704
+
+# setup local postgresql database
+
+kwan@Kwans-MacBook-Air:~/workspace/epiclite$ psql -d postgres
+psql (9.3.2)
+Type "help" for help.
+
+postgres=# CREATE ROLE postgres SUPERUSER CREATEDB CREATEROLE LOGIN;
+CREATE ROLE
+postgres=# CREATE DATABASE epiclite
+postgres-# CREATE ROLE postgres SUPERUSER CREATEDB CREATEROLE LOGIN;^C
+postgres=# CREATE DATABASE epiclite;
+CREATE DATABASE
+postgres=# CREATE EXTENSION postgis;
+CREATE EXTENSION
+postgres=# \q
+kwan@Kwans-MacBook-Air:~/workspace/epiclite$ psql epiclite;
+psql (9.3.2)
+Type "help" for help.
+
+epiclite=# CREATE EXTENSION postgis;
+CREATE EXTENSION
+epiclite=# \q
+kwan@Kwans-MacBook-Air:~/workspace/epiclite$ psql epiclite;
+psql (9.3.2)
+Type "help" for help.
+
+epiclite=# CREATE USER geodjango PASSWORD 'geo';
+CREATE ROLE
+epiclite=# GRANT ALL PRIVILEGES ON DATABASE epiclite to geodjango;
+GRANT
+epiclite=# \q
+
