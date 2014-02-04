@@ -1,5 +1,8 @@
 from django.contrib.gis.db import models
 from django.conf import settings
+import gettext
+
+_ = gettext.gettext
 
 # Create your models here.
 
@@ -15,7 +18,7 @@ class Epic(models.Model):
   title = models.CharField(max_length=64) 
   # epic number used to start or create an epic
   epic_num = models.CharField(max_length=6)
-  location = models.PointField()
+  location = models.PointField(_('Point'), default='POINT(0.0 0.0)')
   description = models.TextField()
   target_day = models.DateField()
   target_time = models.DateTimeField()
@@ -40,7 +43,7 @@ class Epic(models.Model):
 class Device(models.Model):
   # device unique ID, for logging when device connects 
   device_id = models.CharField(max_length=128, db_index=True)
-  location = models.PointField()
+  location = models.PointField(_('Point'), default='POINT(0.0 0.0)')
   connected = models.DateTimeField(auto_now_add=True)
 
   objects = models.GeoManager()

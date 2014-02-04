@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
             fields=[
                 (u'id', models.AutoField(verbose_name=u'ID', serialize=False, auto_created=True, primary_key=True)),
                 ('device_id', models.CharField(max_length=128, db_index=True)),
-                ('location', django.contrib.gis.db.models.fields.PointField(srid=4326)),
+                ('location', django.contrib.gis.db.models.fields.PointField(default='POINT(0.0 0.0)', srid=4326, verbose_name='Point')),
                 ('connected', models.DateTimeField(auto_now_add=True)),
             ],
             options={
@@ -32,7 +32,7 @@ class Migration(migrations.Migration):
                 ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL, to_field=u'id', null=True)),
                 ('title', models.CharField(max_length=64)),
                 ('epic_num', models.CharField(max_length=6)),
-                ('location', django.contrib.gis.db.models.fields.PointField(srid=4326)),
+                ('location', django.contrib.gis.db.models.fields.PointField(default='POINT(0.0 0.0)', srid=4326, verbose_name='Point')),
                 ('description', models.TextField()),
                 ('target_day', models.DateField()),
                 ('target_time', models.DateTimeField()),

@@ -46,7 +46,9 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
+    'django_extensions',
     'rest_framework',
+    'rest_framework_swagger',
     'core',
     'epics',
 )
@@ -79,6 +81,7 @@ DATABASES = {
 
 import dj_database_url
 DATABASES['default'] = dj_database_url.config()
+DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
 
 # Internationalization
 # https://docs.djangoproject.com/en/dev/topics/i18n/

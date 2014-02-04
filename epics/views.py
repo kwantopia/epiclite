@@ -1,42 +1,16 @@
 from django.shortcuts import render
-from rest_framework import viewsets
-from epics.models import Epic
-from epics.serializers import EpicSerializer
-
+from rest_framework import viewsets, status
+from rest_framework.response import Response
+from rest_framework.decorators import api_view, link, action, renderer_classes
+from epics.models import Epic, EpicSubscription
+from epics.serializers import EpicSerializer, DeviceSerializer, EpicSubscriptionSerializer
+from rest_framework.renderers import JSONRenderer, YAMLRenderer
+import random
 
 # Create your views here.
 class EpicViewSet(viewsets.ModelViewSet):
   queryset = Epic.objects.all()
   serializer_class = EpicSerializer
-
-  @link
-  def public_epics(self, request):
-    # TODO: need to restrict within geographical limits
-    public_epics = Epic.objects.filter(public=True):
-    return Response(public_epics)
-
-  @link
-  def active_epics(self, request):
-    # TODO: need to restrict by epics that you have subscribed to 
-    active_epics = EpicSubscription.objects.filter() 
-    return Response()
-
-  @action
-  def join_epic(self, request, epic_num):
-    # TODO: need to find an epic with epicnum in current geographical area
-    epic = Epic.objects.get(epic_num=epic_num)
-    if request.user:
-      EpicSubscription(epic, participant_id=request.session['device_id'], user=request.user)
-    else:
-      EpicSubscription(epic, participant_id=request.session['device_id'])
-    return Response()
-
-  @api_view(['GET', 'POST'])
-  def start_epic(self, request):
-    if request.method == 'GET':
-      return Response() 
-    elif request.method == 'POST':
-    return Response()
 
   # retrieve needs a decorator that approves the user because
   # the user is looking at epic they created or joined.  Also
@@ -50,5 +24,46 @@ def app_opened(request):
     serializer = DeviceSerializer(data=request.DATA)
     if serializer.is_valid():
       serializer.save()
+      request.session['device_id'] = serializer.data['device_id']
       return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def active_epics(request):
+  # TODO: need to restrict by epics that you have subscribed to 
+  if request.method == 'POST':
+    active_epics = EpicSubscription.objects.filter(participant_id=request.DATA['device_id']) 
+    return Response(EpicSubscriptionSerializer(active_epics, many=True).data)
+
+@api_view(['GET'])
+def join_epic(request, epic_num):
+  # TODO: need to find an epic with epicnum in current geographical area
+  epic = Epic.objects.get(epic_num=epic_num)
+  if not epic:
+    return Response({"Error": "No epic found"})
+  if request.user.is_anonymous():
+    subscription, created = EpicSubscription.objects.get_or_create(epic=epic, participant_id=request.session['device_id'])
+  else:
+    subscription, created = EpicSubscription.objects.get_or_create(epic=epic, participant_id=request.session['device_id'], user=request.user)
+  return Response(EpicSubscriptionSerializer(subscription).data)
+
+
+@api_view(['GET'])
+def public_epics(request):
+  # TODO: need to restrict within geographical limits
+  public_epics = Epic.objects.filter(public=True)
+  return Response(EpicSerializer(public_epics, many=True).data)
+
+@api_view(['GET', 'POST'])
+def start_epic(request):
+  if request.method == 'GET':
+    # generate a random 4 digit number that is not in current geography
+    epic_num = random.randint(1000, 9999)
+    return Response(JSONRenderer().render({"epic_num": epic_num})) 
+  elif request.method == 'POST':
+    serializer = EpicSerializer(data=request.DATA)
+    if serializer.is_valid():
+      serializer.save()
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
+
