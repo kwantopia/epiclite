@@ -2,7 +2,6 @@
 .env
 venv
 *.pyc
-staticfiles
 epiclite.sqlite
 
 # C extensions
