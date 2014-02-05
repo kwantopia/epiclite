@@ -43,9 +43,14 @@ def join_epic(request, epic_num):
   if not epic:
     return Response({"Error": "No epic found"})
   if request.user.is_anonymous():
-    subscription, created = EpicSubscription.objects.get_or_create(epic=epic, participant_id=request.session['device_id'])
+    subscription, created = EpicSubscription.objects.get_or_create(epic=epic, 
+                                      participant_id=request.session['device_id'],
+                                      join_location=request.DATA['location'])
   else:
-    subscription, created = EpicSubscription.objects.get_or_create(epic=epic, participant_id=request.session['device_id'], user=request.user)
+    subscription, created = EpicSubscription.objects.get_or_create(epic=epic, 
+                                      participant_id=request.session['device_id'], 
+                                      join_location=request.DATA['location'],
+                                      user=request.user)
   return Response(EpicSubscriptionSerializer(subscription).data)
 
 
@@ -66,4 +71,18 @@ def start_epic(request):
     if serializer.is_valid():
       serializer.save()
     return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+@api_view(['POST'])
+def leave_epic(request, epic_id=None):
+  subscription = EpicSubscription.objects.filter(epic__id=epic_id, participant_id=request.session['device_id'])
+  if subscription.exists():
+    # this is an epic I am subscribed to so now leaving
+    my_subscription = subscription[0]
+    my_subscription.leave = datetime.now() 
+    my_subscription.leave_location = request.DATA['location']
+    my_subscription.save()
+    return Response(EpicSubscriptionSerializer(my_subscription).data)
+  return Response({'Error': 'Not subscribed to {0}'.format(epic_id)}, status=status.HTTP_400_BAD_REQUEST)
+ 
+
 

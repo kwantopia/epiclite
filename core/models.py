@@ -35,8 +35,8 @@ class EpicUserManager(BaseUserManager):
 
 class EpicUser(AbstractBaseUser):
   email = models.EmailField(max_length=255, unique=True)
-  first_name = models.CharField(max_length=64, null=True)
-  last_name = models.CharField(max_length=64, null=True)
+  first_name = models.CharField(max_length=64, null=True, blank=True)
+  last_name = models.CharField(max_length=64, null=True, blank=True)
   is_active = models.BooleanField(default=True)
   is_admin = models.BooleanField(default=False)
 

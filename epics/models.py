@@ -56,6 +56,10 @@ class EpicSubscription(models.Model):
   participant_id = models.CharField(max_length=128, db_index=True)
   # user entry might never have been created yet until registration
   user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True)
+  join_location = models.PointField(_('Point'), default='POINT(0.0 0.0)')
+  leave = models.DateTimeField(default=None, null=True, blank=True)
+  leave_location = models.PointField(_('Point'), default='POINT(0.0 0.0)')
   created = models.DateTimeField(auto_now_add=True)
 
+  objects = models.GeoManager()
 
