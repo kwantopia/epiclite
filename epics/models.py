@@ -12,7 +12,7 @@ class Epic(models.Model):
 
   # organizer info
   organizer_id = models.CharField(max_length=128)
-  user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
+  user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True)
 
   # epic info
   title = models.CharField(max_length=64) 
@@ -25,13 +25,14 @@ class Epic(models.Model):
   public = models.BooleanField(default = False)
 
   REPEAT_CHOICES = (
-    (0, 'Daily'),
-    (1, 'Weekly'),
-    (2, 'Weekdays'),
-    (3, 'MWF'),
-    (4, 'TTh'),
-    (5, 'Weekends'),
-    (6, 'Monthly'),
+    (0, 'One Time'),
+    (1, 'Daily'),
+    (2, 'Weekly'),
+    (3, 'Weekdays'),
+    (4, 'MWF'),
+    (5, 'TTh'),
+    (6, 'Weekends'),
+    (7, 'Monthly'),
   )
 
   repeated = models.IntegerField(choices=REPEAT_CHOICES, default=REPEAT_CHOICES[0][0])
@@ -54,7 +55,7 @@ class EpicSubscription(models.Model):
   # device id of participant
   participant_id = models.CharField(max_length=128, db_index=True)
   # user entry might never have been created yet until registration
-  user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
+  user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True)
   created = models.DateTimeField(auto_now_add=True)
 
 
