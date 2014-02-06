@@ -4,7 +4,7 @@ from core.serializers import EpicUserSerializer
 
 
 class EpicSerializer(serializers.HyperlinkedModelSerializer):
-  user = EpicUserSerializer()
+  user = EpicUserSerializer(required=False)
 
   class Meta:
     model = Epic
