@@ -4,7 +4,7 @@ from core.serializers import EpicUserSerializer
 
 
 class EpicSerializer(serializers.HyperlinkedModelSerializer):
-  user = EpicUserSerializer(required=False)
+  user = serializers.PrimaryKeyRelatedField(required=False)
 
   class Meta:
     model = Epic
@@ -17,7 +17,8 @@ class DeviceSerializer(serializers.HyperlinkedModelSerializer):
     fields = ('device_id', 'location')
 
 class EpicSubscriptionSerializer(serializers.HyperlinkedModelSerializer):
-  epic = EpicSerializer()
+  epic = serializers.HyperlinkedRelatedField(view_name='epic-detail')
+  user = serializers.PrimaryKeyRelatedField(required=False)
 
   class Meta:
     model = EpicSubscription
