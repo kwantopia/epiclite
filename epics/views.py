@@ -3,7 +3,7 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, link, action, renderer_classes
 from epics.models import Epic, EpicSubscription
-from epics.serializers import EpicSerializer, DeviceSerializer, EpicSubscriptionSerializer
+from epics.serializers import EpicSerializer, EpicMinimalSerializer, DeviceSerializer, EpicSubscriptionSerializer
 from rest_framework.renderers import JSONRenderer, YAMLRenderer
 import random
 
@@ -70,6 +70,13 @@ def start_epic(request):
     serializer = EpicSerializer(data=request.DATA)
     if serializer.is_valid():
       serializer.save()
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+@api_view(['POST'])
+def create_epic(request):
+  serializer = EpicMinimalSerializer(data=request.DATA)
+  if serializer.is_valid():
+    serializer.save()
     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])

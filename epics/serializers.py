@@ -8,8 +8,14 @@ class EpicSerializer(serializers.HyperlinkedModelSerializer):
 
   class Meta:
     model = Epic
-    fields = ('epic_uuid', 'epic_num', 'organizer_id', 'user', 'location', 
+    fields = ('epic_num', 'organizer_id', 'user', 'location', 
             'title', 'description', 'target_day', 'target_time', 'public', 'repeated')
+
+class EpicMinimalSerializer(serializers.HyperlinkedModelSerializer):
+
+  class Meta:
+    model = Epic
+    fields = ('epic_num', 'organizer_id', 'location', 'title', 'target_day', 'target_time', 'description')
 
 class DeviceSerializer(serializers.HyperlinkedModelSerializer):
   class Meta:

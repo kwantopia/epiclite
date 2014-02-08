@@ -22,7 +22,7 @@ class Epic(models.Model):
   description = models.TextField()
   target_day = models.DateField()
   target_time = models.DateTimeField()
-  public = models.BooleanField(default = False)
+  public = models.BooleanField(default = True)
 
   REPEAT_CHOICES = (
     (0, 'One Time'),
