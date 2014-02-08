@@ -19,6 +19,11 @@ class Epic(models.Model):
   # epic number used to start or create an epic
   epic_num = models.CharField(max_length=6)
   location = models.PointField(_('Point'), default='POINT(0.0 0.0)')
+  address = models.CharField(max_length=128, null=True, blank=True)
+  city = models.CharField(max_length=64, null=True, blank=True)
+  state = models.CharField(max_length=64, null=True, blank=True)
+  zipcode = models.CharField(max_length=16, null=True, blank=True)
+  country = models.CharField(max_length=64, null=True, blank=True)
   description = models.TextField()
   target_day = models.DateField()
   target_time = models.DateTimeField()
@@ -35,7 +40,7 @@ class Epic(models.Model):
     (7, 'Monthly'),
   )
 
-  repeated = models.IntegerField(choices=REPEAT_CHOICES, default=REPEAT_CHOICES[0][0])
+  repeated = models.IntegerField(choices=REPEAT_CHOICES, default=REPEAT_CHOICES[0][0], blank=True)
   created = models.DateTimeField(auto_now_add=True)
 
   objects = models.GeoManager()
