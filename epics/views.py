@@ -40,7 +40,7 @@ def active_epics(request):
     active_epics = EpicSubscription.objects.filter(participant_id=request.DATA['device_id']) 
     return Response(EpicSubscriptionSerializer(active_epics, many=True).data)
 
-@api_view(['GET'])
+@api_view(['POST'])
 def join_epic(request, epic_num):
   # TODO: need to find an epic with epicnum in current geographical area
   epic = Epic.objects.get(epic_num=epic_num)

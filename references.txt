@@ -57,3 +57,5 @@ epiclite=# GRANT ALL PRIVILEGES ON DATABASE epiclite to geodjango;
 GRANT
 epiclite=# \q
 
+# securing ubuntu servers
+http://www.thefanclub.co.za/how-to/how-secure-ubuntu-1204-lts-server-part-1-basics
