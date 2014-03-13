@@ -16,6 +16,10 @@ class EpicViewSet(viewsets.ModelViewSet):
   # the user is looking at epic they created or joined.  Also
   # for searching public Epic
 
+  # TODO: need to validate the user if logged in, need to validate the epic_num as valid in geo,
+  # need to validate the organizer_id is same epic_num and organizer_id for the epic
+   
+
 @api_view(['POST'])
 def app_opened(request):
   # TODO: register device id
@@ -65,6 +69,8 @@ def start_epic(request):
   if request.method == 'GET':
     # generate a random 4 digit number that is not in current geography
     epic_num = random.randint(1000, 9999)
+    # TODO: need to create an epic with epic_num and device ID from session
+    # and return the epic ID so that user can update the epic with epic ID
     return Response(JSONRenderer().render({"epic_num": epic_num})) 
 
 @api_view(['POST'])

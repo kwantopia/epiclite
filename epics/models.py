@@ -1,6 +1,7 @@
 from django.contrib.gis.db import models
 from django.conf import settings
 import gettext
+import uuid
 
 _ = gettext.gettext
 
@@ -45,6 +46,9 @@ class Epic(models.Model):
 
   objects = models.GeoManager()
 
+  def save(self, *args, **kwargs):
+    self.epic_uuid = uuid.uuid4()
+    super(Epic, self).save(*args, **kwargs)
 
 class Device(models.Model):
   # device unique ID, for logging when device connects 

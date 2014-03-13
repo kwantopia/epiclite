@@ -1,6 +1,30 @@
 # For loading .env from local python manage.py shell
 https://gist.github.com/bennylope/2999704
 
+# get postgres sources.list
+http://wiki.postgresql.org/wiki/Apt
+
+# install postgres and postgis
+apt-get install postgresql-9.3 pgadmin3 binutils libproj-dev gdal-bin libgeoip1 gdal-bin python-gdal postgresql-9.3-postgis-2.1 postgis postgresql-contrib
+
+# postgis setup
+http://trac.osgeo.org/postgis/wiki/UsersWikiPostGIS21UbuntuPGSQL93Apt
+
+# create super user for postgresql
+createuser -d -E -i -l -P -r -s geoepiclite 
+
+# create database
+
+# database setup
+https://www.digitalocean.com/community/articles/how-to-use-roles-and-manage-grant-permissions-in-postgresql-on-a-vps--2
+psql -U geoepiclite -d epiclite -h 127.0.0.1 -W
+
+# add to /etc/postgresq/9.3/main/pg_hba.conf
+host    epiclite        geoepiclite     0.0.0.0/0               md5
+
+# modify /etc/postgresql/9.3/main/postgresql.conf
+listen_address='*' or list of ip addresses
+
 # setup local postgresql database
 
 kwan@Kwans-MacBook-Air:~/workspace/epiclite$ psql -d postgres

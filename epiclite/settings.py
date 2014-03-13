@@ -39,7 +39,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = (
-    'django.contrib.admin.apps.AdminConfig',
+    #'django.contrib.admin.apps.AdminConfig',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -111,4 +111,14 @@ STATICFILES_DIRS = (
 
 MEDIA_ROOT = 'media'
 MEDIA_URL = '/media/'
+
+TEMPLATE_DIRS = (
+    BASE_DIR + '/templates/',
+)
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    )
+}
 

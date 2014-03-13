@@ -10,7 +10,7 @@ router.register(r'epics', views.EpicViewSet)
 
 urlpatterns = patterns('',
     # Examples:
-    # url(r'^$', 'epiclite.views.home', name='home'),
+    url(r'^$', 'epiclite.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^', include(router.urls)),
